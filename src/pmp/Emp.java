@@ -9,5 +9,5 @@ package pmp;
  * @author datnsh
  */
 public class Emp {
-    
+    public static int empId;
 }

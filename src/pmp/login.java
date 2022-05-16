@@ -8,13 +8,49 @@ package pmp;
  *
  * @author datnsh
  */
+import com.sun.glass.events.KeyEvent;
+import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import javax.swing.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 public class login extends javax.swing.JFrame {
-
+Connection conn=null;
+ResultSet rs=null;
+PreparedStatement pst=null;
     /**
      * Creates new form login
      */
     public login() {
         initComponents();
+        initComponents();
+        conn=db.java_db();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, 
+        size.height/2 - getHeight()/2);
+        currentDate();
+
+    }
+    public void currentDate (){
+        
+        Calendar cal =new GregorianCalendar();
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        
+        txt_date.setText((month+1)+"/"+day+"/"+year);
+        
+        int second = cal.get(Calendar.SECOND);
+        int minute = cal.get(Calendar.MINUTE);
+        int hour = cal.get(Calendar.HOUR);
+        
+        lbl_time.setText(hour+":"+(minute)+":"+second);
     }
 
     /**
@@ -27,24 +63,379 @@ public class login extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        cmd_Login1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txt_username1 = new javax.swing.JTextField();
+        txt_password1 = new javax.swing.JPasswordField();
+        txt_combo1 = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        txt_date = new javax.swing.JMenu();
+        lbl_time = new javax.swing.JMenu();
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel2.setLayout(null);
+
+        cmd_Login1.setText("Login");
+        cmd_Login1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmd_Login1ActionPerformed(evt);
+            }
+        });
+        cmd_Login1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmd_Login1KeyPressed(evt);
+            }
+        });
+        jPanel2.add(cmd_Login1);
+        cmd_Login1.setBounds(160, 470, 70, 30);
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Username:");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(10, 360, 70, 16);
+
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Password:");
+        jPanel2.add(jLabel9);
+        jLabel9.setBounds(10, 400, 70, 16);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Please enter your username and password");
+        jPanel2.add(jLabel10);
+        jLabel10.setBounds(10, 320, 241, 14);
+        jPanel2.add(txt_username1);
+        txt_username1.setBounds(100, 350, 132, 30);
+
+        txt_password1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_password1ActionPerformed(evt);
+            }
+        });
+        txt_password1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_password1KeyPressed(evt);
+            }
+        });
+        jPanel2.add(txt_password1);
+        txt_password1.setBounds(100, 390, 132, 30);
+
+        txt_combo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Admin", "Sales" }));
+        txt_combo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_combo1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txt_combo1);
+        txt_combo1.setBounds(100, 430, 130, 30);
+
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Select Position:");
+        jPanel2.add(jLabel11);
+        jLabel11.setBounds(10, 440, 100, 16);
+
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pmp/Images/bk3.jpg"))); // NOI18N
+        jPanel2.add(jLabel12);
+        jLabel12.setBounds(0, -10, 790, 520);
+
+        jMenu2.setText("File");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenu3);
+
+        txt_date.setText("Date");
+        jMenuBar1.add(txt_date);
+
+        lbl_time.setText("Time");
+        jMenuBar1.add(lbl_time);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmd_Login1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmd_Login1ActionPerformed
+        // TODO add your handling code here:
+
+        if (txt_username.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Username Field is empty");
+        } else if (txt_password.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Password Field is empty");
+        }else {
+
+            String sql = "select id,username,password,division from Users Where (username =? and password =? and division =?)";
+
+            //"select * from Employeeinfo where username=? and password=? and division=? and id=?";
+            try{
+                int count =0;
+
+                pst=conn.prepareStatement(sql);
+
+                pst.setString(1,txt_username.getText());
+                pst.setString(2,txt_password.getText());
+                pst.setString(3, txt_combo.getSelectedItem().toString());
+
+                rs=pst.executeQuery();
+
+                {
+                }
+                while(rs.next()){
+                    int id = rs.getInt(1);
+                    Emp.empId = id;
+                    count =count+1;
+                }
+                String access=(txt_combo.getSelectedItem().toString());
+
+                if(access=="Admin") {
+
+                    if(count==1){
+                        JOptionPane.showMessageDialog(null,"Sucess" );
+                        Menu j = new Menu();
+                        j.setVisible(true);
+                        this.dispose();
+
+                        Date currentDate = GregorianCalendar.getInstance().getTime();
+                        DateFormat df = DateFormat.getDateInstance();
+                        String dateString = df.format(currentDate);
+
+                        Date d = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        String timeString = sdf.format(d);
+
+                        String value0 = timeString;
+                        String values = dateString;
+
+                        int value = Emp.empId;
+                        String reg = "insert into Audit (emp_id,date,status) values ('"+value+"','"+value0+" / "+values+"','Logged in')";
+                        pst=conn.prepareStatement(reg);
+                        pst.execute();
+                        this.dispose();
+
+                    }
+
+                    else if(count>1){
+                        JOptionPane.showMessageDialog(null,"Duplicate Username or Password Access denied");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Username and Password is not correct");
+                    }
+                }
+                else if(access=="Sales"){
+
+                    if(count ==1){
+                        JOptionPane.showMessageDialog(null,"Sucess");
+                        MainMenu j = new MainMenu();
+                        j.setVisible (true);
+
+                        Date currentDate = GregorianCalendar.getInstance().getTime();
+                        DateFormat df = DateFormat.getDateInstance();
+                        String dateString = df.format(currentDate);
+
+                        Date d = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        String timeString = sdf.format(d);
+
+                        String value0 = timeString;
+                        String values = dateString;
+
+                        int value = Emp.empId;
+                        String reg = "insert into Audit (emp_id,date,status) values ('"+value+"','"+value0+" / "+values+"','Logged in')";
+                        pst=conn.prepareStatement(reg);
+                        pst.execute();
+                        this.dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Username and Password is not correct");
+                    }
+                }
+            } catch(Exception e)
+
+            {
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+            finally {
+
+                try{
+                    rs.close();
+                    pst.close();
+
+                }
+                catch(Exception e){
+
+                }
+            }
+
+        }
+    }//GEN-LAST:event_cmd_Login1ActionPerformed
+
+    private void cmd_Login1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmd_Login1KeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmd_Login1KeyPressed
+
+    private void txt_password1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_password1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_password1ActionPerformed
+
+    private void txt_password1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_password1KeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER)
+        {
+            String sql = "select id,username,password,division from Users Where (username =? and password =? and division =?)";
+
+            //"select * from Employeeinfo where username=? and password=? and division=? and id=?";
+            try{
+                int count =0;
+
+                pst=conn.prepareStatement(sql);
+
+                pst.setString(1,txt_username.getText());
+                pst.setString(2,txt_password.getText());
+                pst.setString(3, txt_combo.getSelectedItem().toString());
+
+                rs=pst.executeQuery();
+
+                {
+                }
+                while(rs.next()){
+                    int id = rs.getInt(1);
+                    Emp.empId = id;
+                    count =count+1;
+                }
+                String access=(txt_combo.getSelectedItem().toString());
+
+                if(access =="Admin") {
+
+                    if(count==1){
+                        JOptionPane.showMessageDialog(null,"Success" );
+                        MainMenu j = new MainMenu();
+                        j.setVisible(true);
+                        this.dispose();
+
+                        Date currentDate = GregorianCalendar.getInstance().getTime();
+                        DateFormat df = DateFormat.getDateInstance();
+                        String dateString = df.format(currentDate);
+
+                        Date d = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        String timeString = sdf.format(d);
+
+                        String value0 = timeString;
+                        String values = dateString;
+
+                        int value = Emp.empId;
+                        String reg = "insert into Audit (emp_id,date,status) values ('"+value+"','"+value0+" / "+values+"','Logged in')";
+                        pst=conn.prepareStatement(reg);
+                        pst.execute();
+                        this.dispose();
+
+                    }
+
+                    else if(count>1){
+                        JOptionPane.showMessageDialog(null,"Duplicate Username or Password Access denied");
+                    }
+
+                    else{
+                        JOptionPane.showMessageDialog(null,"Username and Password is not correct");
+
+                    }
+
+                }
+                else if(access=="Sales"){
+
+                    if(count ==1){
+                        JOptionPane.showMessageDialog(null,"Success");
+                        MainMenu j = new MainMenu();
+                        j.setVisible (true);
+
+                        Date currentDate = GregorianCalendar.getInstance().getTime();
+                        DateFormat df = DateFormat.getDateInstance();
+                        String dateString = df.format(currentDate);
+
+                        Date d = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                        String timeString = sdf.format(d);
+
+                        String value0 = timeString;
+                        String values = dateString;
+
+                        int value = Emp.empId;
+                        String reg = "insert into Audit (emp_id,date,status) values ('"+value+"','"+value0+" / "+values+"','Logged in')";
+                        pst=conn.prepareStatement(reg);
+                        pst.execute();
+                        this.dispose();
+                    }
+
+                    else{
+                        JOptionPane.showMessageDialog(null,"Username and Password is not correct");
+
+                    }
+
+                }
+
+            } catch(Exception e)
+
+            {
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+            finally {
+
+                try{
+                    rs.close();
+                    pst.close();
+
+                }
+                catch(Exception e){
+
+                }
+            }
+
+        }
+
+    }//GEN-LAST:event_txt_password1KeyPressed
+
+    private void txt_combo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_combo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_combo1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:#
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -82,6 +473,22 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmd_Login1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenu lbl_time;
+    private javax.swing.JComboBox txt_combo1;
+    private javax.swing.JMenu txt_date;
+    private javax.swing.JPasswordField txt_password1;
+    private javax.swing.JTextField txt_username1;
     // End of variables declaration//GEN-END:variables
 }
