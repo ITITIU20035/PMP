@@ -8,18 +8,55 @@ package pmp;
  *
  * @author datnsh
  */
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.*;
+import net.proteanit.sql.DbUtils;
 public class Allowance extends javax.swing.JFrame {
-
+        Connection conn=null;
+        ResultSet rs=null;
+        PreparedStatement pst=null;
     /**
      * Creates new form Allowance
      */
     public Allowance() {
         initComponents();
+        conn=db.java_db();
+        Update_table();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, 
+        size.height/2 - getHeight()/2);
+        txt_emp.setText(String.valueOf(Emp.empId).toString());
+    }
+     private void Update_table() {
+    try{
+        String sql ="select * from allowance";
+        pst=conn.prepareStatement(sql);
+        rs=pst.executeQuery();
+        table_allowance.setModel(DbUtils.resultSetToTableModel(rs));
+    }
+    catch(Exception e){
+    JOptionPane.showMessageDialog(null, e);
+    }
+    finally {
+            
+            try{
+                rs.close();
+                pst.close();
+                
+            }
+            catch(Exception e){
+                
+            }
+        }
     }
 
     /**
@@ -424,11 +461,7 @@ public class Allowance extends javax.swing.JFrame {
         if (txt_empid.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Employee id Field is empty");
         } else if (txt_firstname.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "First name Field is empty");
-
-        } else if (txt_surname.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Surname name Field is empty");
-
+            JOptionPane.showMessageDialog(null, "Employee Name Field is empty");
         }
         else if (txt_dob.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Date of Birth name Field is empty");
@@ -459,7 +492,6 @@ public class Allowance extends javax.swing.JFrame {
                     String value7 =  lbl_total.getText();
                     String value8 =  txt_empid.getText();
                     String value9 =  txt_firstname.getText();
-                    String value10 = txt_surname.getText();
 
                     String sql= "insert into Allowance (created_by,emp_id,overtime,medical,bonus,other,salary,rate,total_allowance,firstname,surname) values ('"+value+"','"+value8+"','"+value6+"','"+value3+"','"+value2+"','"+value4+"','"+value1+"','"+value5+"','"+value7+"','"+value9+"','"+value10+"')";
 
@@ -535,9 +567,6 @@ public class Allowance extends javax.swing.JFrame {
             String add2 =rs.getString("first_name");
             txt_firstname.setText(add2);
 
-            String add3 =rs.getString("surname");
-            txt_surname.setText(add3);
-
             String add4 =rs.getString("Dob");
             txt_dob.setText(add4);
 
@@ -598,8 +627,7 @@ public class Allowance extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         txt_empid.setText("");
-        txt_firstname.setText("");
-        txt_surname.setText("");
+        txt_ename.setText("");
         txt_salary.setText("");
         txt_dob.setText("");
         txt_dept.setText("");
