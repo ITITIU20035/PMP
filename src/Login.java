@@ -108,7 +108,7 @@ public class Login extends javax.swing.JFrame {
         Icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bk3.jpg"))); // NOI18N
         Icon.setOpaque(true);
         jPanel1.add(Icon);
-        Icon.setBounds(-10, 0, 780, 530);
+        Icon.setBounds(0, 0, 770, 530);
 
         jMenu1.setText("File");
 

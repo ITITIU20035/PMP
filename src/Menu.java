@@ -80,12 +80,17 @@ public class Menu extends javax.swing.JFrame {
         jButton3.setBounds(800, 370, 190, 60);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Deduction.png"))); // NOI18N
-        jButton4.setText("Deduction");
+        jButton4.setText("Delete Data");
         jPanel1.add(jButton4);
         jButton4.setBounds(600, 520, 190, 60);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Update.png"))); // NOI18N
         jButton5.setText("Update Salary");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton5);
         jButton5.setBounds(800, 450, 190, 60);
 
@@ -149,6 +154,13 @@ public class Menu extends javax.swing.JFrame {
         pg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_allowance_buttonActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        updateSalary us = new updateSalary();
+        this.dispose();
+        us.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
