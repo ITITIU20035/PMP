@@ -8,8 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.*;
 import java.lang.String;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;  
+import java.sql.Date; 
 import java.text.ParseException;
 
 /**
@@ -50,9 +50,7 @@ public class AddEmployee extends javax.swing.JFrame {
         txt_address = new javax.swing.JTextField();
         txt_ename = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         txt_depid = new javax.swing.JTextField();
-        txt_tid = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -88,8 +86,6 @@ public class AddEmployee extends javax.swing.JFrame {
 
         jLabel8.setText("Department ID:");
 
-        jLabel9.setText("Transaction ID:");
-
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,8 +118,7 @@ public class AddEmployee extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txt_ename, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(jLabel9))
+                                .addGap(144, 144, 144))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
@@ -153,9 +148,7 @@ public class AddEmployee extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_depid, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_tid, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txt_depid, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(jButton2)))
@@ -173,9 +166,7 @@ public class AddEmployee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txt_ename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(txt_tid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_ename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,22 +235,19 @@ public class AddEmployee extends javax.swing.JFrame {
             conn = Database.getConnection();
             int id = Integer.parseInt(txt_eid.getText());
             int depid = Integer.parseInt(txt_depid.getText());
-            int tid = Integer.parseInt(txt_tid.getText());
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-YY");
-            String dob = format.format(txt_dob.getText());
-            Date dobd = new Date.valueOf(dob);
-            String doj =txt_doj.getText();
-            Date dojd = new Date(doj);
-            PreparedStatement pst = conn.prepareStatement("Insert into DETAILS.EMPLOYEE values (?,?,?,?,?,?,?,?,?)");
+            String dob = txt_dob.getText();
+            Date date = Date.valueOf(dob);  
+            String doj = txt_doj.getText();
+            Date date1 = Date.valueOf(doj);
+            PreparedStatement pst = conn.prepareStatement("Insert into DETAILS.EMPLOYEE values (?,?,?,?,?,?,?,?)");
             pst.setInt(1,id);
             pst.setString(2,txt_ename.getText());
-            pst.setDate(3,dobd);
-            pst.setDate(4,dojd);
+            pst.setDate(3,date);
+            pst.setDate(4,date1);
             pst.setString(5,txt_role.getText());
             pst.setInt(6, depid);
             pst.setString(7, txt_num.getText());
             pst.setString(8, txt_address.getText());
-            pst.setInt(9,tid);
             pst.execute();
             JOptionPane.showMessageDialog(null,"Data is saved successfully");
         }catch(Exception e){
@@ -312,7 +300,6 @@ public class AddEmployee extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txt_address;
     private javax.swing.JTextField txt_depid;
@@ -322,6 +309,5 @@ public class AddEmployee extends javax.swing.JFrame {
     private javax.swing.JTextField txt_ename;
     private javax.swing.JTextField txt_num;
     private javax.swing.JTextField txt_role;
-    private javax.swing.JTextField txt_tid;
     // End of variables declaration//GEN-END:variables
 }
